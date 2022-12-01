@@ -1,4 +1,3 @@
-
 max_calories = 0
 current_calories = 0
 

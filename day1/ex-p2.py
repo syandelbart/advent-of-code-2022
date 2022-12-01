@@ -1,4 +1,3 @@
-
 current_calories = 0
 calories = []
 
