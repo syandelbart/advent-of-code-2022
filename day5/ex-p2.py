@@ -46,5 +46,7 @@ for line in open("./day5/input","r"):
 
 
     
+print("The code is: ",end="")
 for stack in cargo_list:
-    print(stack)
+    print(stack[-1],end="")
+print()
