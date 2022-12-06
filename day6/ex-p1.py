@@ -1,4 +1,3 @@
-# EX2 -> marker_length = 14
 marker_length = 4
 letter_buffer = set()
 
