@@ -1,5 +1,4 @@
 marker_length = 14
-letter_buffer = set()
 
 for line in open("./day6/input","r"):
     line_formatted = line.strip()
