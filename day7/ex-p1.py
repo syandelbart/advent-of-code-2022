@@ -40,7 +40,7 @@ def print_structure(file,depth = 0):
         size += print_structure(child,depth + 1)
     
     if not file.is_file():
-        if size <= 100000:
+        if size <= max_file_size:
             size_total += size
 
     return size
@@ -48,7 +48,7 @@ def print_structure(file,depth = 0):
 cur = File("/",0,None)
 root = cur
 
-for line in open("./day7/input-2","r"):
+for line in open("./day7/input","r"):
     line_formatted = line.strip()
     line_chunks = list(line)
 
