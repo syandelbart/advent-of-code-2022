@@ -1,12 +1,13 @@
 import re
 from enum import Enum
+from typing import Self
 
 class Type(Enum):
     DIR = 1
     FILE = 2
 
 class File:
-    def __init__(self, name : str, size : int, parent,type : Type = Type.DIR):
+    def __init__(self, name : str, size : int, parent : Self,type : Type = Type.DIR):
         self.name = name
         self.size = size
         self.parent = parent
