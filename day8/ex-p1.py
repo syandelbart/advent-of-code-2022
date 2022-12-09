@@ -8,7 +8,6 @@ class Direction(Enum):
     VERTICAL = 1
     HORIZONTAL = 2
 
-
 for (index,line) in enumerate(open("./day8/input","r")):
     line_formatted = line.strip()
     line_chunks = list(map(int,list(line_formatted)))
@@ -18,8 +17,6 @@ for (index,line) in enumerate(open("./day8/input","r")):
         if(index_y > len(tree_map_vertical) - 1):
             tree_map_vertical.append([])
         tree_map_vertical[index_y].append(letter)
-
-
 
 class Tree :
     def __init__(self,x : int,y : int):
@@ -32,7 +29,6 @@ class Tree :
         hash = hash * 11 + self.x
         hash = hash * 11 + self.y
         return hash
-
         
 trees_visible = list()
 
@@ -77,4 +73,5 @@ for (index,vertical_line) in enumerate(tree_map_vertical):
     highest_visible_trees = highest_visible_trees.union(top).union(bottom)
 
     total_trees += len(top) + len(bottom)
+
 print("Total Trees:",len(highest_visible_trees) + (len(tree_map_horizontal) - 2) * 2 + len(tree_map_vertical) * 2)
