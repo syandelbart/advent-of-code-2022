@@ -8,7 +8,6 @@ class Direction(Enum):
     VERTICAL = 1
     HORIZONTAL = 2
 
-
 for (index,line) in enumerate(open("./day8/input","r")):
     line_formatted = line.strip()
     line_chunks = list(map(int,list(line_formatted)))
@@ -18,7 +17,6 @@ for (index,line) in enumerate(open("./day8/input","r")):
         if(index_y > len(tree_map_vertical) - 1):
             tree_map_vertical.append([])
         tree_map_vertical[index_y].append(letter)
-
 
 
 class Tree :
@@ -50,18 +48,17 @@ def get_visible_trees_line(tree_line : list, direction : Direction,reverse : boo
             x = index if not reverse else len(tree_line) - 1 - index
 
         max = tree
+        
         tree_list.add(Tree(x,y))
         if(tree >= max_allowed):
             break
-
+        
                 
     return tree_list
 
 highest_visible_trees = set()
-total_trees = 0
 
 max_scenic = 0
-
 
 def get_scenic_score(horizontal : int, vertical : int):
     tree_value = tree_map_vertical[horizontal][vertical]
@@ -75,27 +72,15 @@ def get_scenic_score(horizontal : int, vertical : int):
     scenic_left = get_visible_trees_line(tree_map_horizontal[vertical][0:to_index_left],Direction.HORIZONTAL,True,unknown=vertical,max_allowed=tree_value)
     scenic_right = get_visible_trees_line(tree_map_horizontal[vertical][to_index_right:len(tree_map_horizontal[vertical])],Direction.HORIZONTAL,False,unknown=vertical,max_allowed=tree_value)
 
-    scenic_top = get_visible_trees_line(tree_map_vertical[horizontal][0:to_index_top],Direction.VERTICAL,False,unknown=vertical,max_allowed=tree_value)
-    scenic_bottom = get_visible_trees_line(tree_map_vertical[horizontal][to_index_bottom:len(tree_map_vertical[horizontal])],Direction.VERTICAL,True,unknown=vertical,max_allowed=tree_value)
-
-    
-
-    print("Tree: (",horizontal,",",vertical,")")
-    print("Top Scenic test set:",tree_map_vertical[horizontal][0:to_index_top])
-    print("Right Scenic test set:",tree_map_horizontal[vertical][to_index_right:len(tree_map_horizontal[vertical])])
-    print("Bottom Scenic test set:",tree_map_vertical[horizontal][to_index_bottom:len(tree_map_vertical[horizontal])])
-    print("Left Scenic test set:",tree_map_horizontal[vertical][0:to_index_left])
-    print("Scenic TRBL:",len(scenic_top),len(scenic_right),len(scenic_bottom),len(scenic_left))
+    scenic_top = get_visible_trees_line(tree_map_vertical[horizontal][0:to_index_top],Direction.VERTICAL,True,unknown=vertical,max_allowed=tree_value)
+    scenic_bottom = get_visible_trees_line(tree_map_vertical[horizontal][to_index_bottom:len(tree_map_vertical[horizontal])],Direction.VERTICAL,False,unknown=vertical,max_allowed=tree_value)
 
     return len(scenic_left) * len(scenic_right) * len(scenic_top) * len(scenic_bottom)
-
 
 
 for horizontal in range(1,len(tree_map_horizontal[0])-1):
     for vertical in range(1,len(tree_map_vertical[0])-1):
         scenic_total = get_scenic_score(horizontal,vertical)
-
-        print("Total scenic:",scenic_total)
 
         if scenic_total > max_scenic:
             print(horizontal,vertical)

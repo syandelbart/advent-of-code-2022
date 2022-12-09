@@ -41,7 +41,7 @@ def get_visible_trees_line(tree_line : list, direction : Direction,reverse : boo
     max = 0
     tree_lines_enumerated = enumerate(reversed(tree_line)) if reverse else enumerate(tree_line)
     for (index, tree) in  tree_lines_enumerated:
-        if tree > max or max == 0:
+        if tree > max:
             if direction == Direction.HORIZONTAL:
                 x = unknown
                 y = index if not reverse else len(tree_line) - 1 - index
@@ -50,37 +50,31 @@ def get_visible_trees_line(tree_line : list, direction : Direction,reverse : boo
                 x = index if not reverse else len(tree_line) - 1 - index
 
             max = tree
-            tree_list.add(Tree(x,y))
+            if(index > 0 and index < len(tree_line) - 1):
+                tree_list.add(Tree(x,y))
                 
     return tree_list
 
-print("horizontal")
-print(tree_map_horizontal)
-print("vert")
-print(tree_map_vertical)
-
-
-for (index,tree_line) in enumerate(tree_map_horizontal):
-    print(tree_line)
-
-
-print(tree_map_horizontal[0])
-trees_hor = get_visible_trees_line(tree_map_horizontal[0],Direction.HORIZONTAL,True,unknown=index)
-trees_rev = get_visible_trees_line(tree_map_horizontal[0],Direction.HORIZONTAL,False,unknown=index)
-print("hor")
-[print(tree.x,tree.y) for tree in trees_hor]
-print("rev")
-[print(tree.x,tree.y) for tree in trees_rev]
-print("combined")
-[print(tree.x,tree.y) for tree in trees_rev.union(trees_hor)]
-
 highest_visible_trees = set()
+total_trees = 0
+
 for (index,horizontal_line) in enumerate(tree_map_horizontal):
-    print("hor:",horizontal_line)
-    highest_visible_trees = highest_visible_trees.union(get_visible_trees_line(horizontal_line,Direction.HORIZONTAL,True,unknown=index)).union(get_visible_trees_line(horizontal_line,Direction.HORIZONTAL,False,unknown=index))
+    if(index == 0 or index == len(tree_map_horizontal) - 1):
+        continue
+
+    left = get_visible_trees_line(horizontal_line,Direction.HORIZONTAL,False,unknown=index)
+    right = get_visible_trees_line(horizontal_line,Direction.HORIZONTAL,True,unknown=index)
+    highest_visible_trees = highest_visible_trees.union(left).union(right)
+
+    total_trees += len(left) + len(right)
 
 for (index,vertical_line) in enumerate(tree_map_vertical):
-    print("ver:",vertical_line)
-    highest_visible_trees = highest_visible_trees.union(get_visible_trees_line(vertical_line,Direction.VERTICAL,True,unknown=index)).union(get_visible_trees_line(vertical_line,Direction.VERTICAL,False,unknown=index))
+    if(index == 0 or index == len(tree_map_vertical) - 1):
+        continue
 
-print(len(highest_visible_trees))
+    top = get_visible_trees_line(vertical_line,Direction.VERTICAL,True,unknown=index)
+    bottom = get_visible_trees_line(vertical_line,Direction.VERTICAL,False,unknown=index)
+    highest_visible_trees = highest_visible_trees.union(top).union(bottom)
+
+    total_trees += len(top) + len(bottom)
+print("Total Trees:",len(highest_visible_trees) + (len(tree_map_horizontal) - 2) * 2 + len(tree_map_vertical) * 2)
